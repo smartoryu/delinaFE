@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useReducer } from "react";
 import Axios from "axios";
-import { Table, Button, Input, Tooltip, UncontrolledTooltip, Label } from "reactstrap";
+import { Table, Button, Input, UncontrolledTooltip, Label } from "reactstrap";
 import { API } from "../../API";
 import Modal from "../../components/Modal";
 import { connect } from "react-redux";
@@ -15,12 +15,6 @@ function ManageProduct() {
   const toggleModalAdd = () => {
     setModalAdd(!modalAdd);
   };
-
-  // const [addImage, setAddImage] = useState([]);
-  // const [addImage, setAddImage] = useState({
-  //   addImageFileName: "Please Select an Image...",
-  //   addImageFile: undefined,
-  // });
 
   const [editImage, setEditImage] = useState({
     editImageFileName: "Please Select an Image...",
@@ -115,23 +109,6 @@ function ManageProduct() {
     setDraggedItem(null);
   }
 
-  // const onAddImageFileChange = event => {
-  //   var file = event.target.files[0];
-  //   if (file) {
-  //     setAddImage({
-  //       ...addImage,
-  //       addImageFileName: file.name,
-  //       addImageFile: event.target.files[0]
-  //     });
-  //   } else {
-  //     setAddImage({
-  //       ...addImage,
-  //       addImageFileName: "Please Select an Image...",
-  //       addImageFile: undefined
-  //     });
-  //   }
-  // };
-
   const onEditImageFileChange = (event) => {
     var file = event.target.files[0];
     if (file) {
@@ -156,7 +133,9 @@ function ManageProduct() {
         "Content-Type": "multipart/form-data",
       },
     };
-    formdata.append("image", addImage.addImageFile); //jangan lupa di tambahin playcode dari kenang
+
+    addImage.forEach((image) => formdata.append("image", image));
+    // formdata.append("image", addImage); //jangan lupa di tambahin playcode dari kenang
     formdata.append("data", JSON.stringify(addData));
 
     Axios.post(`${API}/data_product/postProduct`, formdata, Headers)
@@ -249,8 +228,7 @@ function ManageProduct() {
         buttonName="ADD"
         title="Add Product"
         toggle={toggleModalAdd}
-        modal={true}
-        // modal={modalAdd}
+        modal={modalAdd}
         actionFunc={addProduct}>
         <Input
           className="mb-3"
@@ -301,8 +279,8 @@ function ManageProduct() {
         <div className="list-image">
           <ul>
             {addImage.map((file, id) => (
-              <div onDragOver={() => onDragOver(id)}>
-                <li key={id}>
+              <div key={id} onDragOver={() => onDragOver(id)}>
+                <li>
                   <span>{id + 1}</span>
                   <img
                     draggable
@@ -410,37 +388,3 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, { getProduct })(ManageProduct);
-
-// //   const [addImage, setImage] = useReducer((addImage, { type, payload }) => {
-//   switch (type) {
-//     case "add":
-//       return addImage.length < 4 ? [...addImage, payload] : addImage;
-//     case "remove":
-//       return addImage.filter((_, index) => index !== payload);
-//     default:
-//       return addImage.filter(val => val);
-//   }
-// }, []);
-
-// const handleAddImage = images => {
-//   images.forEach(File => {
-//     setImage({ type: "add", payload: File });
-//   });
-// };
-
-// // =========================================
-
-// // input image
-// <Input
-// onChange={(event) => handleAddImage(Array.from(event.target.files))}
-// id="product_image"
-// className="add_product_input"
-// multiple
-// max={4}
-// tabIndex="-1"
-// accept="image/png, image/webp, image/jpeg"
-// type="file"
-// />
-
-// to delete image
-// onClick={() => setImage({ type: "remove", payload: index })}
