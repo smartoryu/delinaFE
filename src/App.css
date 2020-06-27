@@ -62,3 +62,33 @@
 footer2 {
   width: 100%;
 }
+
+.modal-add-product .list-image > ul {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: 500px;
+}
+
+.modal-add-product .list-image ul > div > li > span {
+  font-size: 1rem;
+}
+.modal-add-product .list-image ul > div > li > img {
+  width: 100px;
+  cursor: pointer;
+  margin: 10px;
+  margin-bottom: 0;
+}
+.modal-add-product .list-image ul > div > span {
+  font-size: 0.75rem;
+  padding-left: 1.5em;
+}
+
+/* .modal-add-product li > span {
+  color: red;
+  cursor: pointer;
+  margin: 0 10px;
+} */
